@@ -1,0 +1,151 @@
+#:kivy 1.8.0
+
+<Location>
+	size_hint: .2, .25
+	on_press: self.clicked()
+
+<BITFLGame>:
+	player1: player1
+	upper_left: upper_left
+	upper_midleft: upper_midleft
+	upper_center: upper_center
+	upper_midright: upper_midright
+	upper_right: upper_right
+	midupper_left: midupper_left
+	midupper_right: midupper_right
+	midlower_left: midlower_left
+	midlower_right: midlower_right
+	lower_left: lower_left
+	lower_midleft: lower_midleft
+	lower_center: lower_center
+	lower_midright: lower_midright
+	lower_right: lower_right
+	
+	Location:
+		id: upper_left
+		pos_hint: {'x': 0, 'y': .75}
+		text: "Luxury Apartments"
+		background_color: [10, 1, 1, 1]
+		button_index: 0
+	Location:
+		id: upper_midleft
+		pos_hint: {'x': .2, 'y': .75}
+		text: "Rent Office"
+		background_color: [1, 10, 1, .5]
+		button_index: 1
+	Location:
+		id: upper_center
+		pos_hint: {'x': .4, 'y': .75}
+		text: "Standard Apartment"
+		background_color: [10, 10, 1, .5]
+		button_index: 2
+	Location:
+		id: upper_midright
+		pos_hint: {'x': .6, 'y': .75}
+		text: "Pawn Shop"
+		background_color: [10, 10, 10, .5]
+		button_index: 3
+	Location:
+		id: upper_right
+		pos_hint: {'x': .8, 'y': .75}
+		text: "Z-Mart"
+		background_color: [10, 1, 10, 1]
+		button_index: 4
+	
+	Location:
+		id: midupper_left
+		pos_hint: {'x': 0, 'y': .5}
+		text: "Black's Market"
+		background_color: [1, 1, 10, 1]
+		button_index: 13
+	Location:
+		id: midupper_right
+		pos_hint: {'x': .8, 'y': .5}
+		text: "Fast Food Restaurant"
+		background_color: [1, 10, 10, 1]
+		button_index: 5
+	Location:
+		id: midlower_left
+		pos_hint: {'x': 0, 'y': .25}
+		text: "Bank"
+		background_color: [1, .75, 1, 1]
+		button_index: 12
+	Location:
+		id: midlower_right
+		pos_hint: {'x': .8, 'y': .25}
+		text: "Clothing Store"
+		background_color: [1, 0, 0, 1]
+		button_index: 6
+	
+	Location:
+		id: lower_left
+		pos_hint: {'x': 0, 'y': 0}
+		text: "Factory"
+		background_color: [0, 1, 0, 1]
+		button_index: 11
+	Location:
+		id: lower_midleft
+		pos_hint: {'x': .2, 'y': 0}
+		text: "Employment Office"
+		background_color: [0, 0, 1, 1]
+		button_index: 10
+	Location:
+		id: lower_center
+		pos_hint: {'x': .4, 'y': 0}
+		text: "Blank"
+		background_color: [1, 0, 1, 1]
+		button_index: 9
+	Location:
+		id: lower_midright
+		pos_hint: {'x': .6, 'y': 0}
+		text: "University"
+		background_color: [1, 1, 0, 1]
+		button_index: 8
+	Location:
+		id: lower_right
+		pos_hint: {'x': .8, 'y': 0}
+		text: "Socket City"
+		background_color: [0, 1, 1, 0]
+		button_index: 7
+	
+	BoxLayout:
+		id: middle_section
+		pos_hint: {'x': .2, 'y': .25}
+		size_hint: .6, .5
+		Label:
+			text: "Billy In The Fat Lane"
+		Label:
+			id: player_stats
+			text: root.player_stats()
+	
+	Player:
+		id: player1
+
+<Player>:
+	size_hint: .05, .05
+	pos: self.parent.width/2 - self.width/2, self.parent.height*.825 + self.height/2
+	canvas:
+		Ellipse:
+			pos: self.pos
+			size: self.width, self.width
+
+<CustomPopup>:
+	size_hint: .8, .8
+	auto_dismiss: False
+	title: "location"
+	BoxLayout:
+		id: content
+		Label:
+			id: left_label
+			text: "you are here"
+		BoxLayout:
+			orientation: 'vertical'
+			Button:
+				id: top_right_popup_button
+				text: "do something"
+				on_press: root.do_something()
+			Button:
+				id: close_button
+				text: "Close"
+				on_press: root.dismiss()
+		

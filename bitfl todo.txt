@@ -1,0 +1,22 @@
+todo:
+make buttons change player stats
+have player icon not on top of text
+make splash screen for android
+make icon for android
+set up unit testing
+make debug messages optional
+add time aspect and make the days change
+
+
+
+done this week:
+1/20/2015 show player stats in center square
+1/21/2015 changed around the popup
+
+
+1/12/2015 build initial apk using buildozer
+1/13/2015 change text on buttons to actual places
+1/13/2015 add dummy stats for player
+1/13/2015 split center into boxlayout
+1/16/2015 change colors of the buttons to make it semi-interesting
+
