@@ -34,18 +34,79 @@ class BITFLGame(FloatLayout):
 	12				6
 	11	10	9	8	7
 	'''
-	def set_list(self):
+	def initial_setup(self):
 		#add the menu buttons here, although this might be a poor place
 		self.upper_left.popup_menu = CustomPopup()
 		self.upper_left.popup_menu.title = self.upper_left.text
-		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.do_something(knowledge=1)))
-		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.do_something(money=50)))
+		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
 		
 		self.upper_midleft.popup_menu = CustomPopup()
 		self.upper_midleft.popup_menu.title = self.upper_midleft.text
-		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Happiness", on_press=lambda a: self.do_something(happiness=1)))
-		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.do_something(money=50)))
-		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.do_something(knowledge=1)))
+		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Happiness", on_press=lambda a: self.change_player_stats(happiness=1)))
+		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+
+		self.upper_center.popup_menu = CustomPopup()
+		self.upper_center.popup_menu.title = self.upper_center.text
+		self.upper_center.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.upper_center.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.upper_midright.popup_menu = CustomPopup()
+		self.upper_midright.popup_menu.title = self.upper_midright.text
+		self.upper_midright.popup_menu.ids.right_popup_section.add_widget(Button(text="Decrease Knowledge", on_press=lambda a: self.change_player_stats(knowledge=-1)))
+		self.upper_midright.popup_menu.ids.right_popup_section.add_widget(Button(text="Decrease Money", on_press=lambda a: self.change_player_stats(money=-50)))
+		
+		self.upper_right.popup_menu = CustomPopup()
+		self.upper_right.popup_menu.title = self.upper_right.text
+		self.upper_right.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.upper_right.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.midupper_right.popup_menu = CustomPopup()
+		self.midupper_right.popup_menu.title = self.midupper_right.text
+		self.midupper_right.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.midupper_right.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.midlower_right.popup_menu = CustomPopup()
+		self.midlower_right.popup_menu.title = self.midlower_right.text
+		self.midlower_right.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.midlower_right.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.lower_right.popup_menu = CustomPopup()
+		self.lower_right.popup_menu.title = self.lower_right.text
+		self.lower_right.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.lower_right.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.lower_midright.popup_menu = CustomPopup()
+		self.lower_midright.popup_menu.title = self.lower_midright.text
+		self.lower_midright.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.lower_midright.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.lower_center.popup_menu = CustomPopup()
+		self.lower_center.popup_menu.title = self.lower_center.text
+		self.lower_center.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.lower_center.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.lower_midleft.popup_menu = CustomPopup()
+		self.lower_midleft.popup_menu.title = self.lower_midleft.text
+		self.lower_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.lower_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.lower_left.popup_menu = CustomPopup()
+		self.lower_left.popup_menu.title = self.lower_left.text
+		self.lower_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.lower_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.midlower_left.popup_menu = CustomPopup()
+		self.midlower_left.popup_menu.title = self.midlower_left.text
+		self.midlower_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.midlower_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
+		self.midupper_left.popup_menu = CustomPopup()
+		self.midupper_left.popup_menu.title = self.midupper_left.text
+		self.midupper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+		self.midupper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+		
 		#set up the location_list after the buttons are actually buttons and not just ObjectProperty
 		#there might be a better way but this actually works
 		self.location_list = [self.upper_left, self.upper_midleft,
@@ -63,7 +124,7 @@ class BITFLGame(FloatLayout):
 		stats += "Happiness: "+str(self.player1.happiness)+"\n"
 		self.player_stats = stats
 
-	def do_something(self, knowledge=0, money=0, happiness=0):
+	def change_player_stats(self, knowledge=0, money=0, happiness=0):
 		print "knowledge, money, happiness"
 		print knowledge, money, happiness
 		self.player1.knowledge += knowledge
@@ -172,7 +233,7 @@ class BITFLApp(App):
 	def build(self):
 		game = BITFLGame()
 		#need to setup the button list AFTER instantiation, not sure if there's a better way
-		game.set_list()
+		game.initial_setup()
 		game.update_player_stats()
 		print "==HEY=="
 		print game.location_list
