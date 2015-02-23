@@ -24,30 +24,6 @@ class Location(Button):
 		
 
 class BITFLGame(FloatLayout):
-	''' So this works with it all commented out, man I really don't understand these properties
-	#the player
-	player1 = ObjectProperty(None)
-	
-	#all the buttons
-	upper_left = ObjectProperty(None)
-	upper_midleft = ObjectProperty(None)
-	upper_center = ObjectProperty(None)
-	upper_midright = ObjectProperty(None)
-	upper_right = ObjectProperty(None)
-	midupper_right = ObjectProperty(None)
-	midlower_right = ObjectProperty(None)
-	lower_right = ObjectProperty(None)
-	lower_midright = ObjectProperty(None)
-	lower_center = ObjectProperty(None)
-	lower_midleft = ObjectProperty(None)
-	lower_left = ObjectProperty(None)
-	midlower_left = ObjectProperty(None)
-	midupper_left = ObjectProperty(None)
-	
-	# the center of the screen
-	middle_section = ObjectProperty(None)
-	player_stats = ObjectProperty(None)
-	'''
 	player_stats = StringProperty("")
 	#list of the buttons, must be instantiated later or else it's just empty ObjectProperties
 	location_list = []
@@ -109,16 +85,7 @@ class Player(Widget):
 	def finished_moving(self, instance, value):
 		#update the player to not be moving
 		self.is_moving = 0
-		'''
-		#OLD WAY of doing the popup
-		#Create a popup with this location's information
-		content = Button(text=self.parent.location_list[self.location_index].text)
-		popup = Popup(title='Test popup', content=content, size_hint=(.8, .8))
-		# bind the on_press event of the button to the dismiss function
-		content.bind(on_press=popup.dismiss)
-		#open the popup
-		popup.open()
-		'''
+		
 		self.parent.location_list[self.location_index].popup_menu.open()
 		
 	
@@ -174,17 +141,6 @@ class Player(Widget):
 				#player is going counterclockwise without wrapping around the upper left
 				button_list = self.parent.location_list[self.location_index-1:target_button_index-1:-1]
 		
-		#debugging
-		print "button_list is"
-		for button in button_list:
-			print button.button_index
-		print "==end of button list"
-		print "direction is "+direction
-		print "distance is "+str(distance)
-		print "self.location_index is "+str(self.location_index)
-		print "target_button_index is "+str(target_button_index)
-		print "total_locations is "+str(total_locations)
-		print "max_distance is "+str(max_distance)
 		
 		
 		#make the animation, set the initial duration to 0 so it starts immediately
