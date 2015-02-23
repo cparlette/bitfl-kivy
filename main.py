@@ -38,14 +38,14 @@ class BITFLGame(FloatLayout):
 		#add the menu buttons here, although this might be a poor place
 		self.upper_left.popup_menu = CustomPopup()
 		self.upper_left.popup_menu.title = self.upper_left.text
-		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=self.do_something(knowledge=1)))
-		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=self.do_something(money=50)))
+		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.do_something(knowledge=1)))
+		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.do_something(money=50)))
 		
 		self.upper_midleft.popup_menu = CustomPopup()
 		self.upper_midleft.popup_menu.title = self.upper_midleft.text
-		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Happiness", on_press=self.do_something(happiness=1)))
-		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=self.do_something(money=50)))
-		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=self.do_something(knowledge=50)))
+		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Happiness", on_press=lambda a: self.do_something(happiness=1)))
+		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=lambda a: self.do_something(money=50)))
+		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=lambda a: self.do_something(knowledge=1)))
 		#set up the location_list after the buttons are actually buttons and not just ObjectProperty
 		#there might be a better way but this actually works
 		self.location_list = [self.upper_left, self.upper_midleft,
@@ -70,6 +70,7 @@ class BITFLGame(FloatLayout):
 		self.player1.money += money
 		self.player1.happiness += happiness
 		self.update_player_stats()
+
 	
 
 class Player(Widget):
