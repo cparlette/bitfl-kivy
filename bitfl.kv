@@ -5,6 +5,7 @@
 	on_press: self.clicked()
 
 <BITFLGame>:
+	id: game
 	player1: player1
 	upper_left: upper_left
 	upper_midleft: upper_midleft
@@ -115,8 +116,8 @@
 		Label:
 			text: "Billy In The Fat Lane"
 		Label:
-			id: player_stats
-			text: root.player_stats()
+			id: player_stats_label
+			text: str(game.player_stats)
 	
 	Player:
 		id: player1
@@ -135,17 +136,15 @@
 	title: "location"
 	BoxLayout:
 		id: content
-		Label:
-			id: left_label
-			text: "you are here"
-		BoxLayout:
-			orientation: 'vertical'
-			Button:
-				id: top_right_popup_button
-				text: "do something"
-				on_press: root.do_something()
+		FloatLayout:
+			id: left_popup_section
 			Button:
 				id: close_button
+				pos_hint: {'x': 0, 'y': 0}
+				size_hint: 1, .25
 				text: "Close"
 				on_press: root.dismiss()
+		BoxLayout:
+			orientation: 'vertical'
+			id: right_popup_section
 		

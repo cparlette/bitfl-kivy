@@ -4,17 +4,18 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
-from kivy.properties import ObjectProperty, NumericProperty
+from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 from kivy.uix.button import Button
 from kivy.logger import Logger
 from kivy.core.window import Window
 from kivy.animation import Animation
 
 # Version used by buildozer for android builds
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 class Location(Button):
 	button_index = NumericProperty(1)
+	popup_menu = None
 	def clicked(self):
 		#this particular button was clicked, so instruct the player to move here
 		#check first to see if the player is in the middle of moving
@@ -23,6 +24,7 @@ class Location(Button):
 		
 
 class BITFLGame(FloatLayout):
+	''' So this works with it all commented out, man I really don't understand these properties
 	#the player
 	player1 = ObjectProperty(None)
 	
@@ -45,7 +47,8 @@ class BITFLGame(FloatLayout):
 	# the center of the screen
 	middle_section = ObjectProperty(None)
 	player_stats = ObjectProperty(None)
-	
+	'''
+	player_stats = StringProperty("")
 	#list of the buttons, must be instantiated later or else it's just empty ObjectProperties
 	location_list = []
 	'''
@@ -56,6 +59,17 @@ class BITFLGame(FloatLayout):
 	11	10	9	8	7
 	'''
 	def set_list(self):
+		#add the menu buttons here, although this might be a poor place
+		self.upper_left.popup_menu = CustomPopup()
+		self.upper_left.popup_menu.title = self.upper_left.text
+		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=self.do_something(knowledge=1)))
+		self.upper_left.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=self.do_something(money=50)))
+		
+		self.upper_midleft.popup_menu = CustomPopup()
+		self.upper_midleft.popup_menu.title = self.upper_midleft.text
+		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Happiness", on_press=self.do_something(happiness=1)))
+		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Money", on_press=self.do_something(money=50)))
+		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(Button(text="Increase Knowledge", on_press=self.do_something(knowledge=50)))
 		#set up the location_list after the buttons are actually buttons and not just ObjectProperty
 		#there might be a better way but this actually works
 		self.location_list = [self.upper_left, self.upper_midleft,
@@ -65,19 +79,27 @@ class BITFLGame(FloatLayout):
 						self.lower_left, self.midlower_left, self.midupper_left
 						]
 	
-	def player_stats(self):
+	def update_player_stats(self):
 		#print out the current player stats in the middle of the screen
 		stats = "Player 1 current stats\n"
 		stats += "Knowledge: "+str(self.player1.knowledge)+"\n"
 		stats += "Money: "+str(self.player1.money)+"\n"
 		stats += "Happiness: "+str(self.player1.happiness)+"\n"
-		return stats
+		self.player_stats = stats
+
+	def do_something(self, knowledge=0, money=0, happiness=0):
+		print "knowledge, money, happiness"
+		print knowledge, money, happiness
+		self.player1.knowledge += knowledge
+		self.player1.money += money
+		self.player1.happiness += happiness
+		self.update_player_stats()
 	
 
 class Player(Widget):
 	#player stats
 	knowledge = 0
-	money = 100
+	money = 1000
 	happiness = 50
 	#keep track of where the player is currently
 	location_index = NumericProperty(2)
@@ -97,12 +119,8 @@ class Player(Widget):
 		#open the popup
 		popup.open()
 		'''
-		popup = CustomPopup()
-		popup.title = "TESTING THIS"
-		popup.ids.left_label.text = "whatup"
-		popup.open()
+		self.parent.location_list[self.location_index].popup_menu.open()
 		
-		#try changing the middle_section text here just to see if it works
 	
 	def move(self, target_button_index):
 		#tell the other buttons that we're moving, so they don't work
@@ -189,18 +207,22 @@ class Player(Widget):
 		self.location_index = target_button_index
 
 class CustomPopup(Popup):
-	def do_something(self):
-		self.parent.knowledge += 1
+	def nothing_should_get_here(self):
+		for child in self.children:
+			print child
 
 class BITFLApp(App):
 	def build(self):
 		game = BITFLGame()
 		#need to setup the button list AFTER instantiation, not sure if there's a better way
 		game.set_list()
+		game.update_player_stats()
 		print "==HEY=="
 		print game.location_list
 		print game.upper_left
 		return game
+
+	
 
 if __name__ == '__main__':
 	BITFLApp().run()
