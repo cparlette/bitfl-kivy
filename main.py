@@ -11,7 +11,7 @@ from kivy.core.window import Window
 from kivy.animation import Animation
 
 # Version used by buildozer for android builds
-__version__ = "0.0.4"
+__version__ = "0.0.3"
 
 class Location(Button):
 	button_index = NumericProperty(1)
@@ -190,10 +190,14 @@ class BITFLGame(FloatLayout):
 		App.get_running_app().player_stats = stats
 
 	def change_player_stats(self, knowledge=0, money=0, happiness=0):
-		self.player1.knowledge += knowledge
-		self.player1.money += money
-		self.player1.happiness += happiness
-		self.update_player_stats()
+		if self.player1.money + money < 0:
+			no_money_popup = NoMoneyPopup()
+			no_money_popup.open()
+		else:
+			self.player1.knowledge += knowledge
+			self.player1.money += money
+			self.player1.happiness += happiness
+			self.update_player_stats()
 
 	
 
@@ -285,6 +289,9 @@ class Player(Widget):
 		self.location_index = target_button_index
 
 class CustomPopup(Popup):
+	pass
+
+class NoMoneyPopup(Popup):
 	pass
 
 class BITFLApp(App):

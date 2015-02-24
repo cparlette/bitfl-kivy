@@ -152,4 +152,15 @@
 		BoxLayout:
 			orientation: 'vertical'
 			id: right_popup_section
-		
+
+<NoMoneyPopup>:
+	size_hint: .4, .2
+	auto_dismiss: False
+	title: ""
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			text: "You don't have enough money for that!"
+		Button:
+			text: "OK"
+			on_press: root.dismiss()
