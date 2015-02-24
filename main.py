@@ -11,7 +11,7 @@ from kivy.core.window import Window
 from kivy.animation import Animation
 
 # Version used by buildozer for android builds
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 class Location(Button):
 	button_index = NumericProperty(1)
@@ -140,9 +140,9 @@ class BITFLGame(FloatLayout):
 		self.lower_midleft.popup_menu = CustomPopup()
 		self.lower_midleft.popup_menu.title = self.lower_midleft.text
 		self.lower_midleft.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+			Button(text="Get job at Factory", on_press=lambda a: self.change_player_stats(job={"location": self.lower_left, "title": "Manager", "salary": 20})))
 		self.lower_midleft.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+			Button(text="Get job at Bank", on_press=lambda a: self.change_player_stats(job={"location": self.midlower_left, "title": "Teller", "salary": 15})))
 		
 		#Factory
 		self.lower_left.popup_menu = CustomPopup()
@@ -187,6 +187,10 @@ class BITFLGame(FloatLayout):
 		stats += "Knowledge: "+str(self.player1.knowledge)+"\n"
 		stats += "Money: "+str(self.player1.money)+"\n"
 		stats += "Happiness: "+str(self.player1.happiness)+"\n"
+		if self.player1.job["title"]:
+			stats += "Job: "+self.player1.job["title"]+" at "+self.player1.job["location"].text+"\n"
+		else:
+			stats += "Job: Unemployed\n"
 		App.get_running_app().player_stats = stats
 
 	def update_player_inventory(self):
@@ -195,7 +199,7 @@ class BITFLGame(FloatLayout):
 			inv += thing+"\n"
 		App.get_running_app().player_inventory = inv
 
-	def change_player_stats(self, knowledge=0, money=0, happiness=0, items=[]):
+	def change_player_stats(self, knowledge=0, money=0, happiness=0, items=[], job={}):
 		if self.player1.money + money < 0:
 			no_money_popup = NoMoneyPopup()
 			no_money_popup.open()
@@ -203,6 +207,8 @@ class BITFLGame(FloatLayout):
 			self.player1.knowledge += knowledge
 			self.player1.money += money
 			self.player1.happiness += happiness
+			if job:
+				self.player1.job = job
 			self.update_player_stats()
 			#add items to inventory
 			for thing in items:
@@ -217,14 +223,29 @@ class Player(Widget):
 	money = 1000
 	happiness = 50
 	inventory = []
+	job = {"location": None, "title": "", "salary": 1}
+	#I had defined the whole work button here, but it references self which isn't available, but
+	#I need the actual button here so I can reference it in remove_work_button
+	work_button = None
 	#keep track of where the player is currently
 	location_index = NumericProperty(2)
 	is_moving = NumericProperty(0)
+
+	#The popup has to bind on_dismiss to a function, so I made this, maybe could use a lambda instead?
+	def remove_work_button(self, popup):
+		popup.ids.left_popup_section.remove_widget(self.work_button)
+		return False
 	
 	#finished_moving is needed since an animation's on_complete needs to call a function
 	def finished_moving(self, instance, value):
 		#update the player to not be moving
 		self.is_moving = 0
+		#If this location is where the player works, add a work button
+		if self.job["location"] == self.parent.location_list[self.location_index]:
+			self.work_button = Button(text="Work", on_press=lambda a: self.parent.change_player_stats(
+				money=self.job["salary"]), size_hint=(.5, .25), pos_hint={'x': .5, 'y': 0})
+			self.parent.location_list[self.location_index].popup_menu.ids.left_popup_section.add_widget(self.work_button)
+			self.parent.location_list[self.location_index].popup_menu.bind(on_dismiss=self.remove_work_button)
 		#Open the popup from that location
 		self.parent.location_list[self.location_index].popup_menu.open()
 		
