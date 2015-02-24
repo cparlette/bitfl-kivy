@@ -115,9 +115,14 @@
 		size_hint: .6, .5
 		Label:
 			text: "Billy In The Fat Lane"
-		Label:
-			id: player_stats_label
-			text: str(app.player_stats)
+		BoxLayout:
+			orientation: 'vertical'
+			Label:
+				id: player_stats_label
+				text: str(app.player_stats)
+			Label:
+				id: player_inventory_label
+				text: str(app.player_inventory)
 	
 	Player:
 		id: player1

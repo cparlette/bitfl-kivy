@@ -116,9 +116,9 @@ class BITFLGame(FloatLayout):
 		self.lower_right.popup_menu = CustomPopup()
 		self.lower_right.popup_menu.title = self.lower_right.text
 		self.lower_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Washer/Dryer", on_press=lambda a: self.change_player_stats(money=-300)))
+			Button(text="Buy Washer/Dryer", on_press=lambda a: self.change_player_stats(money=-300, items=["washer", "dryer"])))
 		self.lower_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Refrigerator", on_press=lambda a: self.change_player_stats(money=-250)))
+			Button(text="Buy Refrigerator", on_press=lambda a: self.change_player_stats(money=-250, items=["refrigerator"])))
 		
 		#University
 		self.lower_midright.popup_menu = CustomPopup()
@@ -183,13 +183,19 @@ class BITFLGame(FloatLayout):
 	
 	def update_player_stats(self):
 		#print out the current player stats in the middle of the screen
-		stats = "Player 1 current stats\n"
+		stats = "Player 1 current stats:\n"
 		stats += "Knowledge: "+str(self.player1.knowledge)+"\n"
 		stats += "Money: "+str(self.player1.money)+"\n"
 		stats += "Happiness: "+str(self.player1.happiness)+"\n"
 		App.get_running_app().player_stats = stats
 
-	def change_player_stats(self, knowledge=0, money=0, happiness=0):
+	def update_player_inventory(self):
+		inv = "Player 1 current inventory:\n"
+		for thing in self.player1.inventory:
+			inv += thing+"\n"
+		App.get_running_app().player_inventory = inv
+
+	def change_player_stats(self, knowledge=0, money=0, happiness=0, items=[]):
 		if self.player1.money + money < 0:
 			no_money_popup = NoMoneyPopup()
 			no_money_popup.open()
@@ -198,6 +204,10 @@ class BITFLGame(FloatLayout):
 			self.player1.money += money
 			self.player1.happiness += happiness
 			self.update_player_stats()
+			#add items to inventory
+			for thing in items:
+				self.player1.inventory.append(thing)
+			self.update_player_inventory()
 
 	
 
@@ -206,6 +216,7 @@ class Player(Widget):
 	knowledge = 0
 	money = 1000
 	happiness = 50
+	inventory = []
 	#keep track of where the player is currently
 	location_index = NumericProperty(2)
 	is_moving = NumericProperty(0)
@@ -296,11 +307,13 @@ class NoMoneyPopup(Popup):
 
 class BITFLApp(App):
 	player_stats = StringProperty("")
+	player_inventory = StringProperty("")
 	def build(self):
 		game = BITFLGame()
 		#need to setup the button list AFTER instantiation, not sure if there's a better way
 		game.initial_setup()
 		game.update_player_stats()
+		game.update_player_inventory()
 		return game
 
 if __name__ == '__main__':
