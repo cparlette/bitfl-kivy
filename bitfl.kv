@@ -117,7 +117,7 @@
 			text: "Billy In The Fat Lane"
 		Label:
 			id: player_stats_label
-			text: str(game.player_stats)
+			text: str(app.player_stats)
 	
 	Player:
 		id: player1
@@ -138,6 +138,11 @@
 		id: content
 		FloatLayout:
 			id: left_popup_section
+			Label:
+				id: popup_player_stats_label
+				text: str(app.player_stats)
+				pos_hint: {'x': 0, 'y': .25}
+				size_hint: 1, .75
 			Button:
 				id: close_button
 				pos_hint: {'x': 0, 'y': 0}

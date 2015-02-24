@@ -24,7 +24,7 @@ class Location(Button):
 		
 
 class BITFLGame(FloatLayout):
-	player_stats = StringProperty("")
+	#player_stats = StringProperty("")
 	#list of the buttons, must be instantiated later or else it's just empty ObjectProperties
 	location_list = []
 	'''
@@ -187,7 +187,7 @@ class BITFLGame(FloatLayout):
 		stats += "Knowledge: "+str(self.player1.knowledge)+"\n"
 		stats += "Money: "+str(self.player1.money)+"\n"
 		stats += "Happiness: "+str(self.player1.happiness)+"\n"
-		self.player_stats = stats
+		App.get_running_app().player_stats = stats
 
 	def change_player_stats(self, knowledge=0, money=0, happiness=0):
 		self.player1.knowledge += knowledge
@@ -288,6 +288,7 @@ class CustomPopup(Popup):
 	pass
 
 class BITFLApp(App):
+	player_stats = StringProperty("")
 	def build(self):
 		game = BITFLGame()
 		#need to setup the button list AFTER instantiation, not sure if there's a better way
