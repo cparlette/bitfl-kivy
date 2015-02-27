@@ -1,15 +1,29 @@
 todo:
-make buttons change player stats
 have player icon not on top of text
 make splash screen for android
 make icon for android
 set up unit testing
 make debug messages optional
-add time aspect and make the days change
+implement hunger
+handle college courses better
+split inventory out into it's own popup for easier viewing?
+when you apply for a job, once you click a location at the employment office, make new popup for job titles
+add multiple players, selectable from a main menu when you first start
+
+
 
 
 
 done this week:
+2/23/2015 make buttons change player stats
+2/23/2015 add some unique buttons to each location
+2/23/2015 stop player from buying something when they don't have enough money
+2/24/2015 add items to player's inventory
+2/24/2015 add job attribute and work button that is only available on locations where you have a job
+2/26/2015 add time aspect and make the weeks change
+2/26/2015 tag release v0.1.0, figure out changelog and git tagging
+
+
 1/20/2015 show player stats in center square
 1/21/2015 changed around the popup
 
