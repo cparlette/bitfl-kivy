@@ -169,3 +169,27 @@
 		Button:
 			text: "OK"
 			on_press: root.dismiss()
+
+<NoTimePopup>:
+	size_hint: .4, .2
+	auto_dismiss: False
+	title: ""
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			text: "No time is left for work!"
+		Button:
+			text: "OK"
+			on_press: root.dismiss()
+
+<NewTurnPopup>:
+	size_hint: .8, .5
+	auto_dismiss: False
+	title: ""
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			text: str(app.new_turn_message)
+		Button:
+			text: "OK"
+			on_press: root.dismiss()

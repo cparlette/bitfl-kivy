@@ -9,6 +9,7 @@ from kivy.uix.button import Button
 from kivy.logger import Logger
 from kivy.core.window import Window
 from kivy.animation import Animation
+import random
 
 # Version used by buildozer for android builds
 __version__ = "0.0.4"
@@ -24,7 +25,8 @@ class Location(Button):
 		
 
 class BITFLGame(FloatLayout):
-	#player_stats = StringProperty("")
+	current_player_time_left = 50
+	current_week = 1
 	#list of the buttons, must be instantiated later or else it's just empty ObjectProperties
 	location_list = []
 	'''
@@ -40,137 +42,177 @@ class BITFLGame(FloatLayout):
 		self.upper_left.popup_menu = CustomPopup()
 		self.upper_left.popup_menu.title = self.upper_left.text
 		self.upper_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Relax", on_press=lambda a: self.change_player_stats(happiness=5)))
+			Button(text="Relax", on_press=lambda a: self.change_player_stats(
+				happiness=5)))
 		self.upper_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Read a book", on_press=lambda a: self.change_player_stats(knowledge=5)))
+			Button(text="Read a book", on_press=lambda a: self.change_player_stats(
+				knowledge=5)))
 		
 		#Rent Office
 		self.upper_midleft.popup_menu = CustomPopup()
 		self.upper_midleft.popup_menu.title = self.upper_midleft.text
 		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Pay Rent", on_press=lambda a: self.change_player_stats(money=-100)))
+			Button(text="Pay Rent", on_press=lambda a: self.change_player_stats(
+				money=-100)))
 		self.upper_midleft.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Get your mail", on_press=lambda a: self.change_player_stats(happiness=1)))
+			Button(text="Get your mail", on_press=lambda a: self.change_player_stats(
+				happiness=1)))
 
 		#Standard Apartment
 		self.upper_center.popup_menu = CustomPopup()
 		self.upper_center.popup_menu.title = self.upper_center.text
 		self.upper_center.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Relax", on_press=lambda a: self.change_player_stats(happiness=5)))
+			Button(text="Relax", on_press=lambda a: self.change_player_stats(
+				happiness=5)))
 		self.upper_center.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Read a book", on_press=lambda a: self.change_player_stats(knowledge=5)))
+			Button(text="Read a book", on_press=lambda a: self.change_player_stats(
+				knowledge=5)))
 		self.upper_center.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Throw a party", on_press=lambda a: self.change_player_stats(happiness=15, money=-50)))
+			Button(text="Throw a party", on_press=lambda a: self.change_player_stats(
+				happiness=15, money=-50)))
 		self.upper_center.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Work remotely doing data entry", on_press=lambda a: self.change_player_stats(money=25, happiness=-1)))
+			Button(text="Work remotely doing data entry", on_press=lambda a: self.change_player_stats(
+				money=25, happiness=-1)))
 		
 		#Pawn Shop
 		self.upper_midright.popup_menu = CustomPopup()
 		self.upper_midright.popup_menu.title = self.upper_midright.text
 		self.upper_midright.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy book on sale", on_press=lambda a: self.change_player_stats(knowledge=5, money=-10)))
+			Button(text="Buy book on sale", on_press=lambda a: self.change_player_stats(
+				knowledge=5, money=-10)))
 		self.upper_midright.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Sell your guitar", on_press=lambda a: self.change_player_stats(money=75, happiness=-3)))
+			Button(text="Sell your guitar", on_press=lambda a: self.change_player_stats(
+				money=75, happiness=-3)))
 		
 		#Z-Mart
 		self.upper_right.popup_menu = CustomPopup()
 		self.upper_right.popup_menu.title = self.upper_right.text
 		self.upper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Refrigerator", on_press=lambda a: self.change_player_stats(money=-250, happiness=5)))
+			Button(text="Buy Refrigerator", on_press=lambda a: self.change_player_stats(
+				money=-250, happiness=5)))
 		self.upper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Bicycle", on_press=lambda a: self.change_player_stats(money=-150, happiness=10)))
+			Button(text="Buy Bicycle", on_press=lambda a: self.change_player_stats(
+				money=-150, happiness=10)))
 		self.upper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Encyclopedia Set", on_press=lambda a: self.change_player_stats(money=-50, knowledge=10)))
+			Button(text="Buy Encyclopedia Set", on_press=lambda a: self.change_player_stats(
+				money=-50, knowledge=10)))
 		self.upper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Stereo", on_press=lambda a: self.change_player_stats(money=-100, happiness=15)))
+			Button(text="Buy Stereo", on_press=lambda a: self.change_player_stats(
+				money=-100, happiness=15)))
 		self.upper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Gaming Computer", on_press=lambda a: self.change_player_stats(money=-350, happiness=20)))
+			Button(text="Buy Gaming Computer", on_press=lambda a: self.change_player_stats(
+				money=-350, happiness=20)))
 		self.upper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy DVD", on_press=lambda a: self.change_player_stats(money=-10, happiness=1)))
+			Button(text="Buy DVD", on_press=lambda a: self.change_player_stats(
+				money=-10, happiness=1)))
 		self.upper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Yanni's Greatest Hits", on_press=lambda a: self.change_player_stats(money=-30, happiness=2)))
+			Button(text="Buy Yanni's Greatest Hits", on_press=lambda a: self.change_player_stats(
+				money=-30, happiness=2)))
 		self.upper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Call of Duty 27", on_press=lambda a: self.change_player_stats(money=-60, happiness=5)))
+			Button(text="Buy Call of Duty 27", on_press=lambda a: self.change_player_stats(
+				money=-60, happiness=5)))
 		
 		#Fast Food Restaurant
 		self.midupper_right.popup_menu = CustomPopup()
 		self.midupper_right.popup_menu.title = self.midupper_right.text
 		self.midupper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Sad Meal", on_press=lambda a: self.change_player_stats(money=-5, happiness=-1)))
+			Button(text="Buy Sad Meal", on_press=lambda a: self.change_player_stats(
+				money=-5, happiness=-1)))
 		self.midupper_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Gigantoburger Combo", on_press=lambda a: self.change_player_stats(money=-15, happiness=1)))
+			Button(text="Buy Gigantoburger Combo", on_press=lambda a: self.change_player_stats(
+				money=-15, happiness=1)))
 		
 		#Clothing Store
 		self.midlower_right.popup_menu = CustomPopup()
 		self.midlower_right.popup_menu.title = self.midlower_right.text
 		self.midlower_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Casual Clothes", on_press=lambda a: self.change_player_stats(money=-50, happiness=10)))
+			Button(text="Buy Casual Clothes", on_press=lambda a: self.change_player_stats(
+				money=-50, happiness=10)))
 		self.midlower_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Business Casual Clothes", on_press=lambda a: self.change_player_stats(money=-130, happiness=5)))
+			Button(text="Buy Business Casual Clothes", on_press=lambda a: self.change_player_stats(
+				money=-130, happiness=5)))
 		self.midlower_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Business Clothes", on_press=lambda a: self.change_player_stats(money=-250, happiness=2)))
+			Button(text="Buy Business Clothes", on_press=lambda a: self.change_player_stats(
+				money=-250, happiness=2)))
 		self.midlower_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Formal Clothes", on_press=lambda a: self.change_player_stats(money=-360, happiness=1)))
+			Button(text="Buy Formal Clothes", on_press=lambda a: self.change_player_stats(
+				money=-360, happiness=1)))
 		
 		#Socket City
 		self.lower_right.popup_menu = CustomPopup()
 		self.lower_right.popup_menu.title = self.lower_right.text
 		self.lower_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Washer/Dryer", on_press=lambda a: self.change_player_stats(money=-300, items=["washer", "dryer"])))
+			Button(text="Buy Washer/Dryer", on_press=lambda a: self.change_player_stats(
+				money=-300, items=["washer", "dryer"])))
 		self.lower_right.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Refrigerator", on_press=lambda a: self.change_player_stats(money=-250, items=["refrigerator"])))
+			Button(text="Buy Refrigerator", on_press=lambda a: self.change_player_stats(
+				money=-250, items=["refrigerator"])))
 		
 		#University
 		self.lower_midright.popup_menu = CustomPopup()
 		self.lower_midright.popup_menu.title = self.lower_midright.text
 		self.lower_midright.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Take CompSci Class", on_press=lambda a: self.change_player_stats(knowledge=50)))
+			Button(text="Take CompSci Class", on_press=lambda a: self.change_player_stats(
+				knowledge=50)))
 		self.lower_midright.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Take English Class", on_press=lambda a: self.change_player_stats(knowledge=50)))
+			Button(text="Take English Class", on_press=lambda a: self.change_player_stats(
+				knowledge=50)))
 		
 		#Blank
 		self.lower_center.popup_menu = CustomPopup()
 		self.lower_center.popup_menu.title = self.lower_center.text
 		self.lower_center.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+			Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(
+				knowledge=1)))
 		self.lower_center.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+			Button(text="Increase Money", on_press=lambda a: self.change_player_stats(
+				money=50)))
 		
 		#Employment Office
 		self.lower_midleft.popup_menu = CustomPopup()
 		self.lower_midleft.popup_menu.title = self.lower_midleft.text
 		self.lower_midleft.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Get job at Factory", on_press=lambda a: self.change_player_stats(job={"location": self.lower_left, "title": "Manager", "salary": 20})))
+			Button(text="Get job at Factory", on_press=lambda a: self.change_player_stats(
+				job={"location": self.lower_left, "title": "Manager", "salary": 20})))
 		self.lower_midleft.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Get job at Bank", on_press=lambda a: self.change_player_stats(job={"location": self.midlower_left, "title": "Teller", "salary": 15})))
+			Button(text="Get job at Bank", on_press=lambda a: self.change_player_stats(
+				job={"location": self.midlower_left, "title": "Teller", "salary": 15})))
 		
 		#Factory
 		self.lower_left.popup_menu = CustomPopup()
 		self.lower_left.popup_menu.title = self.lower_left.text
 		self.lower_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(knowledge=1)))
+			Button(text="Increase Knowledge", on_press=lambda a: self.change_player_stats(
+				knowledge=1)))
 		self.lower_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Increase Money", on_press=lambda a: self.change_player_stats(money=50)))
+			Button(text="Increase Money", on_press=lambda a: self.change_player_stats(
+				money=50)))
 		
 		#Bank
 		self.midlower_left.popup_menu = CustomPopup()
 		self.midlower_left.popup_menu.title = self.midlower_left.text
 		self.midlower_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Withdraw Money", on_press=lambda a: self.change_player_stats(money=200)))
+			Button(text="Withdraw Money", on_press=lambda a: self.change_player_stats(
+				money=200)))
 		self.midlower_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Rob Bank", on_press=lambda a: self.change_player_stats(money=550)))
+			Button(text="Rob Bank", on_press=lambda a: self.change_player_stats(
+				money=550)))
 		
 		#Black's Market
 		self.midupper_left.popup_menu = CustomPopup()
 		self.midupper_left.popup_menu.title = self.midupper_left.text
 		self.midupper_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Bacon", on_press=lambda a: self.change_player_stats(money=-10, happiness=10)))
+			Button(text="Buy Bacon", on_press=lambda a: self.change_player_stats(
+				money=-10, happiness=10)))
 		self.midupper_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Sushi", on_press=lambda a: self.change_player_stats(money=-20, happiness=20)))
+			Button(text="Buy Sushi", on_press=lambda a: self.change_player_stats(
+				money=-20, happiness=20)))
 		self.midupper_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Salad", on_press=lambda a: self.change_player_stats(money=-10, happiness=2)))
+			Button(text="Buy Salad", on_press=lambda a: self.change_player_stats(
+				money=-10, happiness=2)))
 		self.midupper_left.popup_menu.ids.right_popup_section.add_widget(
-			Button(text="Buy Frozen Pizza", on_press=lambda a: self.change_player_stats(money=-10, happiness=5)))
+			Button(text="Buy Frozen Pizza", on_press=lambda a: self.change_player_stats(
+				money=-10, happiness=5)))
 		
 		#set up the location_list after the buttons are actually buttons and not just ObjectProperty
 		#there might be a better way but this actually works
@@ -184,6 +226,8 @@ class BITFLGame(FloatLayout):
 	def update_player_stats(self):
 		#print out the current player stats in the middle of the screen
 		stats = "Player 1 current stats:\n"
+		stats += "Time Left This Week: "+str(self.current_player_time_left)+"\n"
+		stats += "Current Week: "+str(self.current_week)+"\n"
 		stats += "Knowledge: "+str(self.player1.knowledge)+"\n"
 		stats += "Money: "+str(self.player1.money)+"\n"
 		stats += "Happiness: "+str(self.player1.happiness)+"\n"
@@ -199,14 +243,18 @@ class BITFLGame(FloatLayout):
 			inv += thing+"\n"
 		App.get_running_app().player_inventory = inv
 
-	def change_player_stats(self, knowledge=0, money=0, happiness=0, items=[], job={}):
+	def change_player_stats(self, knowledge=0, money=0, happiness=0, items=[], job={}, time=0):
 		if self.player1.money + money < 0:
 			no_money_popup = NoMoneyPopup()
 			no_money_popup.open()
+		elif self.current_player_time_left + time < 0:
+			no_time_popup = NoTimePopup()
+			no_time_popup.open()
 		else:
 			self.player1.knowledge += knowledge
 			self.player1.money += money
 			self.player1.happiness += happiness
+			self.current_player_time_left += time
 			if job:
 				self.player1.job = job
 			self.update_player_stats()
@@ -214,6 +262,25 @@ class BITFLGame(FloatLayout):
 			for thing in items:
 				self.player1.inventory.append(thing)
 			self.update_player_inventory()
+
+	def end_of_turn(self):
+		self.current_player_time_left = 50
+		self.current_week += 1
+		animation = Animation(duration=0)
+		animation += Animation(pos=(self.upper_center.center[0]-(self.player1.size[0]/2),
+			self.upper_center.center[1]-(self.player1.size[1]/2)), duration=.1)
+		animation.start(self.player1)
+		self.player1.location_index = 2
+		self.update_player_stats()
+		#generate a new turn message from a list of options
+		possible_messages = [
+			"You played bingo all weekend at the local fire hall.",
+			"You spent all weekend painting the living room a slightly darker shade of brown.",
+			"You went swimming at La Jolla."]
+		App.get_running_app().new_turn_message = possible_messages[
+			random.randint(0, len(possible_messages)-1)]
+		new_turn_popup = NewTurnPopup()
+		new_turn_popup.open()
 
 	
 
@@ -240,14 +307,19 @@ class Player(Widget):
 	def finished_moving(self, instance, value):
 		#update the player to not be moving
 		self.is_moving = 0
-		#If this location is where the player works, add a work button
-		if self.job["location"] == self.parent.location_list[self.location_index]:
-			self.work_button = Button(text="Work", on_press=lambda a: self.parent.change_player_stats(
-				money=self.job["salary"]), size_hint=(.5, .25), pos_hint={'x': .5, 'y': 0})
-			self.parent.location_list[self.location_index].popup_menu.ids.left_popup_section.add_widget(self.work_button)
-			self.parent.location_list[self.location_index].popup_menu.bind(on_dismiss=self.remove_work_button)
-		#Open the popup from that location
-		self.parent.location_list[self.location_index].popup_menu.open()
+		#check to see if there is any time left in this week
+		if self.parent.current_player_time_left < 0:
+			self.parent.end_of_turn()
+		else:
+			#If this location is where the player works, add a work button
+			current_location = self.parent.location_list[self.location_index]
+			if self.job["location"] == current_location:
+				self.work_button = Button(text="Work", on_press=lambda a: self.parent.change_player_stats(
+					money=(self.job["salary"]*8), time=-8), size_hint=(.5, .25), pos_hint={'x': .5, 'y': 0})
+				current_location.popup_menu.ids.left_popup_section.add_widget(self.work_button)
+				current_location.popup_menu.bind(on_dismiss=self.remove_work_button)
+			#Open the popup from that location
+			current_location.popup_menu.open()
 		
 	
 	def move(self, target_button_index):
@@ -313,10 +385,14 @@ class Player(Widget):
 							),
 							duration=.3
 						)
+			#each square you move takes 1 "hour"
+			self.parent.current_player_time_left -= 1
 		#when the animation completes, call finished_moving(), which will set is_moving to 0
 		animation.bind(on_complete=self.finished_moving)
 		#run the animations
 		animation.start(self)
+		#update the UI with correct time remaining
+		self.parent.update_player_stats()
 		#set the players location_index so we know where he is
 		self.location_index = target_button_index
 
@@ -326,9 +402,16 @@ class CustomPopup(Popup):
 class NoMoneyPopup(Popup):
 	pass
 
+class NoTimePopup(Popup):
+	pass
+
+class NewTurnPopup(Popup):
+	pass
+
 class BITFLApp(App):
 	player_stats = StringProperty("")
 	player_inventory = StringProperty("")
+	new_turn_message = StringProperty("")
 	def build(self):
 		game = BITFLGame()
 		#need to setup the button list AFTER instantiation, not sure if there's a better way
