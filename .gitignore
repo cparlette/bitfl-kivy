@@ -52,3 +52,12 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Kivy/Buildozer files
+.buildozer/
+
+# Files being edited currently
+*~
+
+# Temporary files
+tmp/
