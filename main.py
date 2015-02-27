@@ -12,7 +12,7 @@ from kivy.animation import Animation
 import random
 
 # Version used by buildozer for android builds
-__version__ = "0.0.4"
+__version__ = "0.1.0"
 
 class Location(Button):
 	button_index = NumericProperty(1)
